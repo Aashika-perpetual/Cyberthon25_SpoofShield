@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Spoofing Analytics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: radial-gradient(circle, rgb(71, 89, 207), rgb(6, 15, 77), rgba(0, 0, 0, 0.90));
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        .dashboard {
+            background: linear-gradient(30deg, rgb(6, 15, 77), rgba(0, 0, 0, 0.9));
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+        }
+
+        .dashboard-title {
+            color: white;
+            padding: 5px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .horizontal-line {
+            width: 75%;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.65);
+            margin: 10px 0;
+        }
+
+        .dashboard-menu {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .dashboard-menu li {
+            margin-bottom: 25px;
+            padding: 5px;
+        }
+
+        .dashboard-menu li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .dashboard-menu li i {
+            margin-right: 12px;
+        }
+
+        .dashboard-menu li:hover {
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, whitesmoke 50%, rgba(255, 255, 255, 0) 100%);
+            background-size: 100% 2px;
+            background-repeat: no-repeat;
+            background-position: bottom;
+        }
+
+        .dashboard-menu li.active {
+            border-bottom: 3px solid transparent;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, whitesmoke 50%, rgba(255, 255, 255, 0) 100%);
+            background-size: 100% 2px;
+            background-repeat: no-repeat;
+            background-position: bottom;
+        }      
+</style>
+   
+</head>
+<body>
+        <div class="dashboard-container">
+            <!-- Sidebar -->
+            <div class="dashboard">
+                <h1 class="dashboard-title">SpoofShield</h1>
+                <div class="horizontal-line"></div>
+                <nav>
+                    <ul class="dashboard-menu">
+                        <li><a href="index.html"><i class="fa fa-tachometer-alt"></i> Dashboard</a></li>
+                        <li><a href="dns.html"><i class="fa fa-globe"></i> DNS Spoofing</a></li>
+                        <li class="active"><a href="email.html"><i class="fa fa-envelope"></i> Email Spoofing</a></li>
+                        <li><a href="alerts.html"><i class="fa fa-bell"></i> Alerts</a></li>
+                        <li><a href="report.html"><i class="fa fa-file-alt"></i> Reports</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>       
+   </body>
+   </html>

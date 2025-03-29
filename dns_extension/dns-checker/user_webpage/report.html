@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: radial-gradient(circle, rgb(71, 89, 207), rgb(6, 15, 77), rgba(0, 0, 0, 0.90));
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        .dashboard {
+            background: linear-gradient(30deg, rgb(6, 15, 77), rgba(0, 0, 0, 0.9));
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+        }
+
+        .dashboard-title {
+            color: white;
+            padding: 5px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .horizontal-line {
+            width: 75%;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.65);
+            margin: 10px 0;
+        }
+
+        .dashboard-menu {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .dashboard-menu li {
+            margin-bottom: 25px;
+            padding: 5px;
+        }
+
+        .dashboard-menu li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .dashboard-menu li i {
+            margin-right: 12px;
+        }
+
+        .dashboard-menu li:hover {
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, whitesmoke 50%, rgba(255, 255, 255, 0) 100%);
+            background-size: 100% 2px;
+            background-repeat: no-repeat;
+            background-position: bottom;
+        }
+
+        .dashboard-menu li.active {
+            border-bottom: 3px solid transparent;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, whitesmoke 50%, rgba(255, 255, 255, 0) 100%);
+            background-size: 100% 2px;
+            background-repeat: no-repeat;
+            background-position: bottom;
+        }   
+        .container {
+            width: 60%;
+            max-width: 1100px;
+            background: #162447;
+            padding: 20px;
+            margin-top:50px ;
+            margin-bottom: 20px;
+            margin-left: 25%;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+
+        h2 {
+            color: #F7F7F7;
+            margin-bottom: 10px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .download-btn {
+            background: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .download-btn i {
+            margin-right: 5px;
+        }
+
+        .download-btn:hover {
+            background: #0056b3;
+        }
+
+        .table-container {
+    background: #0F3460;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); 
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+th, td {
+    padding: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+    text-align: left;
+    color: #F7F7F7;
+}
+
+th {
+    background: linear-gradient(135deg, #007BFF, #0056b3);
+    color: white;
+    font-weight: bold;
+}
+
+.download-btn {
+    background: linear-gradient(135deg, #007BFF, #0056b3);
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    transition: 0.3s ease-in-out;
+}
+
+.download-btn i {
+    margin-right: 8px;
+}
+
+.download-btn:hover {
+    background: linear-gradient(135deg, #0056b3, #00408a); 
+    transform: scale(1.05); 
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    .container {
+        width: 100%;
+        padding: 15px;
+    }
+}
+
+</style>
+   
+</head>
+<body>
+        <div class="dashboard-container">
+            <!-- Sidebar -->
+            <div class="dashboard">
+                <h1 class="dashboard-title">SpoofShield</h1>
+                <div class="horizontal-line"></div>
+                <nav>
+                    <ul class="dashboard-menu">
+                        <li><a href="index.html"><i class="fa fa-tachometer-alt"></i> Dashboard</a></li>
+                        <li><a href="dns.html"><i class="fa fa-globe"></i> DNS Spoofing</a></li>
+                        <li><a href="email.html"><i class="fa fa-envelope"></i> Email Spoofing</a></li>
+                        <li><a href="alerts.html"><i class="fa fa-bell"></i> Alerts</a></li>
+                        <li class="active"><a href="report.html"><i class="fa fa-file-alt"></i> Reports</a></li>
+                    </ul>
+                </nav>
+            </div>
+        
+            <div class="container">
+                <div class="header">
+                    <h2>DNS Spoofing Report</h2>
+                    <button class="download-btn" onclick="downloadDNSReport()">
+                        <i class="fa fa-download"></i> Download Report
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Website</th>
+                                <th>Google DNS</th>
+                                <th>Cloudflare DNS</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dnsReportTable">
+                            <!-- DNS Report Data Will Be Inserted Here -->
+                        </tbody>
+                    </table>
+                </div>
+            
+                <div class="header">
+                    <h2>Email Spoofing Report</h2>
+                    <button class="download-btn" onclick="downloadEmailReport()">
+                        <i class="fa fa-download"></i> Download Report
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sender Email</th>
+                                <th>Email Header</th>
+                                <th>SPF Check</th>
+                                <th>DKIM Status</th>
+                                <th>DMARC Policy</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="emailReportTable">
+                            <!-- Email Report Data Will Be Inserted Here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+</div>            
+            <script>// DNS Spoofing Data
+                const dnsData = [
+                    { website: "example.com", googleDNS: "192.0.2.1", cloudflareDNS: "192.0.2.1", status: "✅ No Spoofing Detected!" },
+                    { website: "testsite.com", googleDNS: "203.0.113.5", cloudflareDNS: "198.51.100.7", status: "⚠️ Possible DNS Spoofing Detected!" }
+                ];
+                
+                // Email Spoofing Data (Replaced IP Address with Email Header)
+                const emailData = [
+                    { senderEmail: "admin@example.com", emailHeader: "Received: from mail.example.com", spf: "PASS", dkim: "PASS", dmarc: "PASS", status: "✅ Verified" },
+                    { senderEmail: "fake@phishing.com", emailHeader: "Received: from unknown.host", spf: "FAIL", dkim: "FAIL", dmarc: "FAIL", status: "⚠️ Possible Spoofing Detected!" }
+                ];
+                
+                // Populate DNS Spoofing Table
+                function populateDNSReport() {
+                    const tableBody = document.getElementById("dnsReportTable");
+                    if (!tableBody) return;
+                    tableBody.innerHTML = ""; 
+                    dnsData.forEach(entry => {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td>${entry.website}</td>
+                            <td>${entry.googleDNS}</td>
+                            <td>${entry.cloudflareDNS}</td>
+                            <td>${entry.status}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                }
+                
+                // Populate Email Spoofing Table
+                function populateEmailReport() {
+                    const tableBody = document.getElementById("emailReportTable");
+                    if (!tableBody) return;
+                    tableBody.innerHTML = ""; 
+                    emailData.forEach(entry => {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td>${entry.senderEmail}</td>
+                            <td>${entry.emailHeader}</td>
+                            <td>${entry.spf}</td>
+                            <td>${entry.dkim}</td>
+                            <td>${entry.dmarc}</td>
+                            <td>${entry.status}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                }
+                
+                // Function to Download CSV Report
+                function downloadCSV(data, filename, headers) {
+                    let csvContent = headers.join(",") + "\n"; // Add headers
+                    data.forEach(row => {
+                        csvContent += Object.values(row).join(",") + "\n";
+                    });
+                
+                    // Create Blob for better compatibility
+                    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+                    const link = document.createElement("a");
+                    const url = URL.createObjectURL(blob);
+                    link.setAttribute("href", url);
+                    link.setAttribute("download", filename);
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+                
+                // Download DNS Report
+                function downloadDNSReport() {
+                    const headers = ["Website", "Google DNS", "Cloudflare DNS", "Status"];
+                    downloadCSV(dnsData, "DNS_Spoofing_Report.csv", headers);
+                }
+                
+                // Download Email Report (Updated with Email Header)
+                function downloadEmailReport() {
+                    const headers = ["Sender Email", "Email Header", "SPF Status", "DKIM Status", "DMARC Policy", "Status"];
+                    downloadCSV(emailData, "Email_Spoofing_Report.csv", headers);
+                }
+                
+                // Populate tables on page load
+                document.addEventListener("DOMContentLoaded", function () {
+                    populateDNSReport();
+                    populateEmailReport();
+                });
+                </script>        
+   </body>
+   </html>
