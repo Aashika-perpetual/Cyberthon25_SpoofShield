@@ -1,0 +1,45 @@
+{
+    "manifest_version": 3,
+    "name": "Email Header Security Scanner",
+    "version": "1.0",
+    "description": "Analyzes email headers to detect spoofing attempts and provides real-time alerts",
+    "permissions": [
+      "activeTab",
+      "storage",
+      "notifications",
+      "webNavigation"
+    ],
+    "host_permissions": [
+      "*://mail.google.com/*",
+      "*://outlook.office.com/*",
+      "*://outlook.live.com/*",
+      "*://mail.yahoo.com/*"
+    ],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "content_scripts": [
+      {
+        "matches": [
+          "*://mail.google.com/*",
+          "*://outlook.office.com/*",
+          "*://outlook.live.com/*",
+          "*://mail.yahoo.com/*"
+        ],
+        "js": ["content.js"]
+      }
+    ],
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        "16": "icon1.png",
+        "48": "icon1.png",
+        "128": "icon1.png"
+      }
+    },
+    "icons": {
+      "16": "icon1.png",
+      "48": "icon1.png",
+      "128": "icon1.png"
+    }
+}

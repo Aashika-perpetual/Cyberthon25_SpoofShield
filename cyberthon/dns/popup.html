@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Email Header Security Scanner</title>
+  <style>
+    body {
+      width: 350px;
+      font-family: Arial, sans-serif;
+      padding: 15px;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .header img {
+      width: 24px;
+      height: 24px;
+      margin-right: 10px;
+    }
+    .header h1 {
+      font-size: 16px;
+      margin: 0;
+    }
+    .status {
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+    .safe {
+      background-color: #dfffdf;
+      border: 1px solid #9ecf9e;
+    }
+    .warning {
+      background-color: #ffffdd;
+      border: 1px solid #ffcc00;
+    }
+    .danger {
+      background-color: #ffdddd;
+      border: 1px solid #ff0000;
+    }
+    .details {
+      margin-top: 15px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    table th {
+      background-color: #f2f2f2;
+    }
+    .settings {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #ddd;
+    }
+  </style>
+</head>
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      width: 350px;
+      padding: 10px;
+      font-family: Arial, sans-serif;
+    }
+    .status {
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .status.safe {
+      background-color: #dff0d8;
+      color: #3c763d;
+    }
+    .status.warning {
+      background-color: #fcf8e3;
+      color: #8a6d3b;
+    }
+    .status.danger {
+      background-color: #f2dede;
+      color: #a94442;
+    }
+    .details {
+      margin-top: 10px;
+      display: none;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    #toggle-details {
+      width: 100%;
+      padding: 5px;
+      margin-top: 10px;
+      background-color: #f0f0f0;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Email Header Security Scanner</h1>
+  </div>
+  
+  <div id="status" class="status safe">
+    No active email selected.
+  </div>
+  
+  <button id="toggle-details" style="display: none;">Show Details</button>
+  
+  <div id="details-section" class="details">
+    <h3>Authentication Results</h3>
+    <table id="auth-table">
+      <tr>
+        <th>Protocol</th>
+        <th>Status</th>
+      </tr>
+      <tr>
+        <td>SPF</td>
+        <td id="spf-status">Unknown</td>
+      </tr>
+      <tr>
+        <td>DKIM</td>
+        <td id="dkim-status">Unknown</td>
+      </tr>
+      <tr>
+        <td>DMARC</td>
+        <td id="dmarc-status">Unknown</td>
+      </tr>
+    </table>
+
+    <h3>Issues Detected</h3>
+    <ul id="issues-list">
+      <li>No issues detected</li>
+    </ul>
+  </div>
+  
+  <div class="settings">
+    <label>
+      <input type="checkbox" id="enable-notifications" checked> 
+      Enable notifications for high-risk emails
+    </label>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>

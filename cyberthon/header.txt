@@ -1,0 +1,14 @@
+Return-Path: <sender@example.com>
+Received: from mail.example.com (mail.example.com [192.168.1.10])
+    by mx.google.com with ESMTP id abcd12345
+    for <receiver@example.com>; Mon, 28 Aug 2023 10:15:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; d=example.com; s=default; c=relaxed/relaxed;
+    h=from:subject:date:message-id:to:mime-version;
+    bh=abc123xyz456==;
+    b=abcdefg12345xyz67890...
+Received-SPF: pass (google.com: domain of sender@example.com designates 192.168.1.10 as permitted sender)
+Message-ID: <1234567890@example.com>
+Subject: Important Update
+From: sender@example.com
+To: receiver@example.com
+Date: Mon, 28 Aug 2023 10:15:00 -0700 (PDT)
