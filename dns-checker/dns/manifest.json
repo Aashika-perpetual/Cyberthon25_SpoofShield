@@ -1,0 +1,22 @@
+{
+    "manifest_version": 3,
+    "name": "DNS Spoofing Detector",
+    "version": "1.0",
+    "permissions": ["tabs", "notifications"],
+    "host_permissions": [
+    "https://dns.google/resolve?*",
+    "https://cloudflare-dns.com/dns-query?*",
+    "https://9.9.9.9/dns-query?*"
+],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "action": {
+      "default_popup": "popup.html"
+    },
+    "icons": {
+      "48": "icon.png",
+      "128": "icon.png"
+    }
+  }
+  

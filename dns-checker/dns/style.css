@@ -1,0 +1,61 @@
+body {
+    font-family: "Poppins", sans-serif;
+    text-align: center;
+    background: linear-gradient(135deg, #3F51B5, #00BFFF); /* Ultramarine Blue & Light Blue */
+    color: white;
+    padding: 20px;
+    width: 250px;
+    border-radius: 10px;
+}
+
+.container {
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+#checkDns {
+    background: linear-gradient(45deg, #ff9800, #ff5722);
+    color: white;
+}
+
+#checkEmail {
+    background: linear-gradient(45deg, #4caf50, #00e676);
+    color: white;
+}
+
+button:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+#statusMessage {
+    display: none;
+    color: rgb(3, 36, 85);
+    background-color: #cde0f5; 
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 16px; 
+    font-weight: bold;
+    margin-bottom: 10px;
+    transition: opacity 0.5s ease-in-out;
+}

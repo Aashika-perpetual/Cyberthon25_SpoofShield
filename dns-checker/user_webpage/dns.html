@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNS Spoofing Analytics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: radial-gradient(circle, rgb(71, 89, 207), rgb(6, 15, 77), rgba(0, 0, 0, 0.90));
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        .dashboard {
+            background: linear-gradient(30deg, rgb(6, 15, 77), rgba(0, 0, 0, 0.9));
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+        }
+
+        .dashboard-title {
+            color: white;
+            padding: 5px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .horizontal-line {
+            width: 75%;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.65);
+            margin: 10px 0;
+        }
+
+        .dashboard-menu {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .dashboard-menu li {
+            margin-bottom: 25px;
+            padding: 5px;
+        }
+
+        .dashboard-menu li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .dashboard-menu li i {
+            margin-right: 12px;
+        }
+
+        .dashboard-menu li:hover {
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, whitesmoke 50%, rgba(255, 255, 255, 0) 100%);
+            background-size: 100% 2px;
+            background-repeat: no-repeat;
+            background-position: bottom;
+        }
+
+        .dashboard-menu li.active {
+            border-bottom: 3px solid transparent;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, whitesmoke 50%, rgba(255, 255, 255, 0) 100%);
+            background-size: 100% 2px;
+            background-repeat: no-repeat;
+            background-position: bottom;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            position: relative;
+             right:35% ;
+            text-align: center;
+            width: 350px;
+            border: 2px solid rgba(0, 183, 255, 1);
+            box-shadow: 0 0 12px rgba(0, 183, 255, 0.8);
+        }
+
+        h2 {
+            margin-bottom: 15px;
+        }
+
+        .input-box {
+            width: 90%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: none;
+            color: #f5f5f5;
+            background-color: transparent;
+            border-radius: 5px;
+            text-align: center;
+            border: 2px solid rgba(0, 183, 255, 1);
+            box-shadow: 0 0 12px rgba(0, 183, 255, 0.8);
+        }
+
+        button {
+            background: dodgerblue;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .result {
+            margin-top: 15px;
+            font-weight: bold;
+            color: yellow;
+        }
+</style>
+   
+</head>
+<body>
+        <div class="dashboard-container">
+            <!-- Sidebar -->
+            <div class="dashboard">
+                <h1 class="dashboard-title">SpoofShield</h1>
+                <div class="horizontal-line"></div>
+                <nav>
+                    <ul class="dashboard-menu">
+                        <li><a href="index.html"><i class="fa fa-tachometer-alt"></i> Dashboard</a></li>
+                        <li class="active"><a href="dns.html"><i class="fa fa-globe"></i> DNS Spoofing</a></li>
+                        <li><a href="email.html"><i class="fa fa-envelope"></i> Email Spoofing</a></li>
+                        <li><a href="alerts.html"><i class="fa fa-bell"></i> Alerts</a></li>
+                        <li><a href="report.html"><i class="fa fa-file-alt"></i> Reports</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+            <div class="container">
+                <h2>DNS Spoofing Detector</h2>
+                <input type="text" id="website" class="input-box" placeholder="Enter website url">
+                <button id="checkDNS">Check DNS</button>
+                <p class="result" id="spoofedResult"></p>
+            </div>
+   </body>
+   <script>
+    document.addEventListener("DOMContentLoaded", () => {
+    const checkButton = document.getElementById("checkDNS");
+    if (checkButton) {
+        checkButton.addEventListener("click", async () => {
+            const inputURL = document.getElementById("website")?.value.trim();
+            const resultElement = document.getElementById("spoofedResult");
+
+            if (!inputURL) {
+                resultElement.innerHTML = "❌ Please enter a valid URL.";
+                resultElement.style.color = "red";
+                return;
+            }
+
+            resultElement.innerHTML = "🔍 Checking... Please wait.";
+            resultElement.style.color = "yellow";
+
+            try {
+                const response = await fetch(`http://localhost:3000/check-dns?url=${encodeURIComponent(inputURL)}`);
+                const data = await response.json();
+
+                if (data.error) {
+                    resultElement.innerHTML = `❌ Error: ${data.error}`;
+                    resultElement.style.color = "red";
+                } else {
+                    resultElement.innerHTML = `${data.spoofed}<br><br>
+                    <b>Extracted Domain:</b> ${data.extractedDomain}<br>
+                    <b>Google DNS:</b> ${data.googleDNS}<br>
+                    <b>Cloudflare DNS:</b> ${data.cloudflareDNS}<br>`;
+                    resultElement.style.color = data.spoofed.includes("⚠️") ? "orange" : "green";
+
+                    // Store the DNS result
+                    storeDNSReport({
+                        website: data.extractedDomain,
+                        googleDNS: data.googleDNS,
+                        cloudflareDNS: data.cloudflareDNS,
+                        status: data.spoofed
+                    });
+
+                    // **Delay redirection to allow results to display**
+                    setTimeout(() => {
+                        window.location.href = "alerts.html";
+                    }, 3000); // Redirect after 3 seconds (adjust time if needed)
+                }
+            } catch (error) {
+                console.error(error);
+                resultElement.innerHTML = "❌ Failed to fetch DNS records.";
+                resultElement.style.color = "red";
+            }
+        });
+    }
+});
+
+    function storeDNSReport(entry) {
+    let dnsData = JSON.parse(localStorage.getItem("dnsReport")) || [];
+    
+    // Keep only the last 2 entries
+    if (dnsData.length >= 2) {
+        dnsData = dnsData.slice(-1); // Keep only the last entry
+    }
+    
+    dnsData.push(entry);
+    localStorage.setItem("dnsReport", JSON.stringify(dnsData));
+
+    // Save spoofing status separately for alerts
+    localStorage.setItem("spoofingDetected", entry.status.includes("⚠️") ? "true" : "false");
+
+    // Send data to the backend to store in CSV
+    fetch("http://localhost:3000/save-dns", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(entry),
+    }).catch(error => console.error("Error saving DNS report:", error));
+
+    // Redirect to the Alerts page
+    window.location.href = "alerts.html";
+}
+</script>

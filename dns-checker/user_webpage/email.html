@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Spoofing Detector</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: radial-gradient(circle, rgb(71, 89, 207), rgb(6, 15, 77), rgba(0, 0, 0, 0.90));
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        .dashboard {
+            background: linear-gradient(30deg, rgb(6, 15, 77), rgba(0, 0, 0, 0.9));
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+        }
+
+        .dashboard-title {
+            color: white;
+            padding: 5px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .horizontal-line {
+            width: 75%;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.65);
+            margin: 10px 0;
+        }
+
+        .dashboard-menu {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .dashboard-menu li {
+            margin-bottom: 25px;
+            padding: 5px;
+        }
+
+        .dashboard-menu li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .dashboard-menu li i {
+            margin-right: 12px;
+        }
+
+        .dashboard-menu li:hover {
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, whitesmoke 50%, rgba(255, 255, 255, 0) 100%);
+            background-size: 100% 2px;
+            background-repeat: no-repeat;
+            background-position: bottom;
+        }
+
+        .dashboard-menu li.active {
+            border-bottom: 3px solid transparent;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, whitesmoke 50%, rgba(255, 255, 255, 0) 100%);
+            background-size: 100% 2px;
+            background-repeat: no-repeat;
+            background-position: bottom;
+        }
+
+        .content-area {
+            margin-left: 250px;
+            margin-top: 70px;
+            padding: 20px;
+            width: calc(100% - 240px);
+        }
+
+        .detection-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            max-width: 780px;
+            min-width:780px;
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background: linear-gradient(to right, #4776E6, #8E54E9);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        #spoofing-result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .safe {
+            background-color: rgba(0, 255, 0, 0.2);
+            color: #00ff00;
+        }
+
+        .spoofed {
+            background-color: rgba(255, 0, 0, 0.2);
+            color: #ff0000;
+        }
+
+        .neutral {
+            background-color: rgba(255, 255, 0, 0.2);
+            color: #ffff00;
+        }
+
+        details {
+            margin-top: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        details summary {
+            cursor: pointer;
+            color: #4776E6;
+        }
+
+        details pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard">
+            <h1 class="dashboard-title">SpoofShield</h1>
+            <div class="horizontal-line"></div>
+            <nav>
+                <ul class="dashboard-menu">
+                    <li><a href="index.html"><i class="fa fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="dns.html"><i class="fa fa-globe"></i> DNS Spoofing</a></li>
+                    <li class="active"><a href="email.html"><i class="fa fa-envelope"></i> Email Spoofing</a></li>
+                    <li><a href="alerts.html"><i class="fa fa-bell"></i> Alerts</a></li>
+                    <li><a href="report.html"><i class="fa fa-file-alt"></i> Reports</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="content-area">
+            <div class="detection-container">
+                <h2>Email Spoofing Detector</h2>
+                <textarea id="email-header" placeholder="Paste the full email header here for spoofing analysis"></textarea>
+                <button onclick="detectSpoofing()">Detect Spoofing</button>
+                <div id="spoofing-result"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function detectSpoofing() {
+            const headerText = document.getElementById('email-header').value;
+            const resultDiv = document.getElementById('spoofing-result');
+            resultDiv.innerHTML = '';
+            resultDiv.classList.remove('safe', 'spoofed', 'neutral');
+            if (!headerText.trim()) {
+                resultDiv.innerHTML = 'Please enter an email header for analysis.';
+                return;
+            }
+            const analysis = {
+                spf: checkSPF(headerText),
+                dkim: checkDKIM(headerText),
+                dmarc: checkDMARC(headerText),
+                addressConsistency: checkAddressConsistency(headerText),
+                ipReputation: checkIPReputation(headerText)
+            };
+            const spoofingRisk = assessSpoofingRisk(analysis);
+            displayResults(spoofingRisk, analysis, resultDiv);
+        }
+        function assessSpoofingRisk(analysis) {
+            let riskScore = 0;
+            const riskFactors = [];
+            if (analysis.spf.passed) {
+                riskScore += 0;  // Passed - Low risk
+            } else if (analysis.spf.details.includes('neutral') || analysis.spf.details.includes('none')) {
+                riskScore += 1;  // Neutral - Moderate risk
+                riskFactors.push(`SPF Check: ${analysis.spf.details}`);
+            } else {
+                riskScore += 2;  // Failed - High risk
+                riskFactors.push(`SPF Check: ${analysis.spf.details}`);
+            }
+            if (analysis.dkim.passed) {
+                riskScore += 0;  // Passed - Low risk
+            } else if (analysis.dkim.details.includes('none') || analysis.dkim.details.includes('neutral')) {
+                riskScore += 1;  // Not configured - Moderate risk
+                riskFactors.push(`DKIM Check: ${analysis.dkim.details}`);
+            } else {
+                riskScore += 2;  // Failed - High risk
+                riskFactors.push(`DKIM Check: ${analysis.dkim.details}`);
+            }
+
+            if (analysis.dmarc.passed) {
+                riskScore += 0;  // Passed - Low risk
+            } else if (analysis.dmarc.details.includes('none') || analysis.dmarc.details.includes('neutral')) {
+                riskScore += 1;  // Not configured - Moderate risk
+                riskFactors.push(`DMARC Check: ${analysis.dmarc.details}`);
+            } else {
+                riskScore += 2;  // Failed - High risk
+                riskFactors.push(`DMARC Check: ${analysis.dmarc.details}`);
+            }
+            if (analysis.addressConsistency.consistent) {
+                riskScore += 0;  // Consistent - Low risk
+            } else {
+                riskScore += 1;  // Inconsistent - Moderate risk
+                riskFactors.push(`Address Consistency: ${analysis.addressConsistency.details}`);
+            }
+            if (!analysis.ipReputation.suspicious) {
+                riskScore += 0;  // Clean IP - Low risk
+            } else {
+                riskScore += 1;  // Suspicious IP - Moderate risk
+                riskFactors.push(`IP Reputation: ${analysis.ipReputation.details}`);
+            }
+            return {
+                score: riskScore,
+                factors: riskFactors
+            };
+        }
+        function displayResults(spoofingRisk, analysis, resultDiv) {
+            let riskLevel = 'safe';
+            let riskMessage = 'Low Risk';
+
+            if (spoofingRisk.score >= 5) {
+                riskLevel = 'spoofed';
+                riskMessage = 'High Risk of Spoofing';
+            } else if (spoofingRisk.score >= 2 && spoofingRisk.score < 5) {
+                riskLevel = 'neutral';
+                riskMessage = 'Moderate Risk';
+            } else {
+                riskLevel = 'safe';
+                riskMessage = 'Low Risk - No Spoofing Detected';
+            }
+            const resultHTML = `
+                <h3>${riskMessage}</h3>
+                <div>
+                    <p>Spoofing Risk Score: ${spoofingRisk.score} / 7</p>
+                    ${spoofingRisk.factors.length > 0 ? `
+                        <h4>Detected Risk Factors:</h4>
+                        <ul>
+                            ${spoofingRisk.factors.map(factor => `<li>${factor}</li>`).join('')}
+                        </ul>
+                    ` : `
+                        <p>All email authentication checks passed successfully.</p>
+                    `}
+                    
+                    <details>
+                        <summary>Detailed Authentication Results</summary>
+                        <pre>
+SPF Check: ${analysis.spf.passed ? '✅ Passed' : '❌ Failed'} - ${analysis.spf.details}
+DKIM Check: ${analysis.dkim.passed ? '✅ Passed' : '❌ Failed'} - ${analysis.dkim.details}
+DMARC Check: ${analysis.dmarc.passed ? '✅ Passed' : '❌ Failed'} - ${analysis.dmarc.details}
+Address Consistency: ${analysis.addressConsistency.consistent ? '✅ Consistent' : '❌ Inconsistent'} - ${analysis.addressConsistency.details}
+IP Reputation: ${!analysis.ipReputation.suspicious ? '✅ Clean' : '❌ Suspicious'} - ${analysis.ipReputation.details}
+                        </pre>
+                    </details>
+                </div>
+            `;
+            resultDiv.classList.add(riskLevel);
+            resultDiv.innerHTML = resultHTML;
+            setTimeout(() => {
+    window.location.href = 'alerts.html';
+}, 3000); 
+
+        }
+        function checkSPF(headerText) {
+            const spfRegex = /(?:Received-SPF|Authentication-Results:.*spf)=\s*(pass|fail|softfail|neutral|none)/i;
+            const match = headerText.match(spfRegex);
+            
+            if (!match) {
+                return { 
+                    passed: false, 
+                    details: 'No SPF record found or unable to verify' 
+                };
+            }
+            const result = match[1].toLowerCase();
+            switch(result) {
+                case 'pass':
+                    return { 
+                        passed: true, 
+                        details: 'SPF check passed' 
+                    };
+                case 'neutral':
+                case 'none':
+                    return { 
+                        passed: true, 
+                        details: 'SPF check neutral (potential risk)' 
+                    };
+                default:
+                    return { 
+                        passed: false, 
+                        details: `SPF check failed: ${result}` 
+                    };
+            }
+        }
+        function checkDKIM(headerText) {
+            const dkimSignatureRegex = /DKIM-Signature:\s*(.+)/i;
+            const dkimStatusRegex = /Authentication-Results:.*dkim=\s*(pass|fail|none|neutral|policy)/i;
+            
+            const signatureMatch = headerText.match(dkimSignatureRegex);
+            const statusMatch = headerText.match(dkimStatusRegex);
+            if (!signatureMatch && !statusMatch) {
+                return { 
+                    passed: false, 
+                    details: 'No DKIM signature or verification status found' 
+                };
+            }
+            if (statusMatch) {
+                const result = statusMatch[1].toLowerCase();
+                switch(result) {
+                    case 'pass':
+                        return { 
+                            passed: true, 
+                            details: 'DKIM signature verified' 
+                        };
+                    case 'none':
+                    case 'neutral':
+                        return { 
+                            passed: true, 
+                            details: 'DKIM not configured or neutral' 
+                        };
+                    default:
+                        return { 
+                            passed: false, 
+                            details: `DKIM signature invalid: ${result}` 
+                        };
+                }
+            }
+            return { 
+                passed: !!signatureMatch, 
+                details: signatureMatch 
+                    ? 'DKIM signature present' 
+                    : 'No DKIM signature found' 
+            };
+        }
+        function checkDMARC(headerText) {
+            const dmarcRegex = /(?:Authentication-Results:.*dmarc|DMARC)=\s*(pass|fail|none|neutral|policy)/i;
+            const match = headerText.match(dmarcRegex);
+            
+            if (!match) {
+                return { 
+                    passed: false, 
+                    details: 'No DMARC record found or unable to verify' 
+                };
+            }
+            const result = match[1].toLowerCase();
+            switch(result) {
+                case 'pass':
+                    return { 
+                        passed: true, 
+                        details: 'DMARC check passed' 
+                    };
+                case 'none':
+                case 'neutral':
+                    return { 
+                        passed: true, 
+                        details: 'DMARC not configured or neutral' 
+                    };
+                default:
+                    return { 
+                        passed: false, 
+                        details: `DMARC check failed: ${result}` 
+                    };
+            }
+        }
+        function checkAddressConsistency(headerText) {
+            const fromRegex = /From:\s*(.+?)\r?\n/i;
+            const returnPathRegex = /Return-Path:\s*(.+?)\r?\n/i;
+            const receivedRegex = /Received:\s*from\s*([^\s]+)/i;      
+            const fromMatch = headerText.match(fromRegex);
+            const returnPathMatch = headerText.match(returnPathRegex);
+            const receivedMatch = headerText.match(receivedRegex);
+            const extractDomain = (email) => {
+                const domainMatch = email.match(/@([^\s>]+)/);
+                return domainMatch ? domainMatch[1].toLowerCase() : null;
+            };
+            const domains = {
+                from: fromMatch ? extractDomain(fromMatch[1]) : null,
+                returnPath: returnPathMatch ? extractDomain(returnPathMatch[1]) : null,
+                received: receivedMatch ? receivedMatch[1].toLowerCase() : null
+            };
+            const isConsistent = () => {
+                const domainList = Object.values(domains).filter(domain => domain !== null);
+                if (domainList.length < 2) return true;
+                const mailRoutingDomains = ['googlemail.com', 'google.com', 'outlook.com', 'office365.com'];
+                const filteredDomains = domainList.filter(domain => 
+                    !mailRoutingDomains.some(routingDomain => domain.includes(routingDomain))
+                );
+                if (filteredDomains.length <= 1) return true;
+                return filteredDomains.every(domain => domain === filteredDomains[0]);
+            };
+
+            return { 
+                consistent: isConsistent(), 
+                details: isConsistent()
+                    ? 'Sender domains appear consistent' 
+                    : `Domain mismatch: From (${domains.from}) vs Return-Path (${domains.returnPath}) vs Received (${domains.received})` 
+            };
+        }
+        function checkIPReputation(headerText) {
+            const ipRegex = /(?:from|by)\s+\[?(\d+\.\d+\.\d+\.\d+)\]?/gi;
+            const matches = [...headerText.matchAll(ipRegex)];
+            
+            if (matches.length === 0) {
+                return { 
+                    suspicious: false, 
+                    details: 'No IP addresses found' 
+                };
+            }
+
+            // Expanded list of suspicious IP ranges and patterns
+            const suspiciousRanges = [
+                /^(10\.|172\.(1[6-9]|2\d|3[01])|192\.168)/,  // Private IP ranges
+                /^(0\.|127\.|255\.|224\.)/,  // Reserved/special-use IP ranges
+                /^(192\.0\.2\.|198\.51\.100\.|203\.0\.113\.)/  // Documentation and test network ranges
+            ];
+
+            const suspiciousIPs = [];
+
+            for (const match of matches) {
+                const ip = match[1];
+                for (const suspiciousRegex of suspiciousRanges) {
+                    if (suspiciousRegex.test(ip)) {
+                        suspiciousIPs.push(ip);
+                        break;
+                    }
+                }
+            }
+
+            return suspiciousIPs.length > 0 
+                ? { 
+                    suspicious: true, 
+                    details: `Suspicious IP addresses detected: ${suspiciousIPs.join(', ')}` 
+                }
+                : { 
+                    suspicious: false, 
+                    details: 'No suspicious IP addresses found' 
+                };
+        }
+        function detectSpoofing() {
+    const headerText = document.getElementById('email-header').value;
+    const resultDiv = document.getElementById('spoofing-result');
+    resultDiv.innerHTML = '';
+    resultDiv.classList.remove('safe', 'spoofed', 'neutral');
+
+    if (!headerText.trim()) {
+        resultDiv.innerHTML = 'Please enter an email header for analysis.';
+        return;
+    }
+
+    const analysis = {
+        spf: checkSPF(headerText),
+        dkim: checkDKIM(headerText),
+        dmarc: checkDMARC(headerText),
+        addressConsistency: checkAddressConsistency(headerText),
+        ipReputation: checkIPReputation(headerText)
+    };
+
+    const spoofingRisk = assessSpoofingRisk(analysis);
+    displayResults(spoofingRisk, analysis, resultDiv);
+
+    // Store results in local storage
+    const alertData = {
+        riskScore: spoofingRisk.score,
+        riskFactors: spoofingRisk.factors,
+        timestamp: new Date().toLocaleString(),
+    };
+    localStorage.setItem("emailSpoofAlerts", JSON.stringify(alertData));
+}
+function saveEmailDetectionResult(headerText, spoofingRisk, analysis) {
+    const fromRegex = /From:\s*(.+?)\r?\n/i;
+    const fromMatch = headerText.match(fromRegex);
+    const senderEmail = fromMatch ? fromMatch[1] : 'Unknown Sender';
+    const result = {
+        timestamp: new Date().toISOString(),
+        senderEmail: senderEmail,
+        emailHeader: headerText.substring(0, 100) + '...', // Truncate long headers
+        spf: analysis.spf.passed ? 'PASS' : 'FAIL',
+        dkim: analysis.dkim.passed ? 'PASS' : 'FAIL',
+        dmarc: analysis.dmarc.passed ? 'PASS' : 'FAIL',
+        status: spoofingRisk.score >= 5 ? '⚠️ Possible Spoofing' : '✅ Verified',
+        riskScore: spoofingRisk.score
+    };
+    let emailResults = JSON.parse(localStorage.getItem('emailDetectionResults') || '[]');
+    emailResults.push(result);
+    if (emailResults.length > 2) {
+        emailResults = emailResults.slice(-2);
+    }
+    localStorage.setItem('emailDetectionResults', JSON.stringify(emailResults));
+}
+    </script>
+</body>
+</html>
